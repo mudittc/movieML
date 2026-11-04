@@ -1,0 +1,261 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0B0B0D;
+    color: #F4F0E8;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 8%;
+    border-bottom: 1px solid #242326;
+}
+
+.logo {
+    color: #D1AD70;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.tagline {
+    color: #77747A;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* HERO */
+
+.hero {
+    text-align: center;
+    padding: 110px 20px 90px;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(151, 108, 48, 0.16),
+            transparent 65%
+        );
+}
+
+.eyebrow {
+    color: #C9A45C;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 86px);
+    line-height: 1.1;
+    font-weight: 500;
+}
+
+h1 span {
+    color: #C9A45C;
+}
+
+.description {
+    color: #99959B;
+    margin-top: 25px;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* SEARCH */
+
+.search-container {
+    max-width: 650px;
+    margin: 45px auto 0;
+    display: flex;
+    gap: 12px;
+    padding: 8px;
+    background: #18181B;
+    border: 1px solid #343137;
+    border-radius: 12px;
+}
+
+#movie-search {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 15px;
+    font-size: 14px;
+}
+
+#movie-search::placeholder {
+    color: #77747A;
+}
+
+#recommend-button {
+    background: #C9A45C;
+    color: #15120D;
+    border: none;
+    border-radius: 8px;
+    padding: 15px 22px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#recommend-button:hover {
+    background: #E0BC78;
+    transform: translateY(-2px);
+}
+
+/* RESULTS */
+
+#results-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 30px 100px;
+}
+
+#results-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 650px) {
+    header {
+        padding: 22px 5%;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    .hero {
+        padding: 80px 18px 60px;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    #recommend-button {
+        width: 100%;
+    }
+}
+
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.search-box input {
+    width: 100%;
+}
+
+#search-results {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background: #19191D;
+    border: 1px solid #343137;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 10;
+    display: none;
+    text-align: left;
+}
+
+.search-result {
+    padding: 14px 16px;
+    color: #EAE5DC;
+    cursor: pointer;
+    font-size: 13px;
+    border-bottom: 1px solid #302E32;
+}
+
+.search-result:hover {
+    background: #29251F;
+    color: #D6B16D;
+}
+
+#selected-movie {
+    color: #C9A45C;
+    margin-top: 18px;
+    font-size: 13px;
+}
+
+
+/* RECOMMENDATIONS */
+
+#recommendation-status {
+    color: #C9A45C;
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.movie-card {
+    background: #18181B;
+    border: 1px solid #302E32;
+    border-radius: 10px;
+    padding: 24px 18px;
+    min-height: 145px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.25s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    border-color: #C9A45C;
+    background: #211F1D;
+}
+
+.movie-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.movie-card p {
+    color: #C9A45C;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .movie-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 550px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

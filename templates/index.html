@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MovieMatch | Discover Films</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🎬 MOVIEMATCH</div>
+        <div class="tagline">A WORLD OF FILMS, ONE DISCOVERY AWAY.</div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="eyebrow">YOUR PERSONAL FILM DISCOVERY ENGINE</p>
+
+            <h1>Find your next<br>
+                <span>obsession.</span>
+            </h1>
+
+            <p class="description">
+                Tell us what you love watching.
+                We'll find something you'll love next.
+            </p>
+
+            
+            <div class="search-container">
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="movie-search"
+                        placeholder="Search for a movie..."
+                        autocomplete="off"
+                    >
+
+                    <div id="search-results"></div>
+                </div>
+
+                <button id="recommend-button">
+                    FIND SIMILAR MOVIES
+                </button>
+
+            </div>
+
+            <p id="selected-movie"></p>
+
+        </section>
+
+        <section id="results-section">
+            <h2>Your next watch</h2>
+            <div id="recommendations" class="movie-grid"></div>
+            <p id="recommendation-status"></p>
+        </section>
+    </main>
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

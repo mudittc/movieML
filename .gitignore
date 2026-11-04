@@ -1,0 +1,19 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Generated datasets and model artifacts
+data/
+*.npz
+*.npy
+
+# OS and editor files
+.DS_Store
+.vscode/
+.idea/
