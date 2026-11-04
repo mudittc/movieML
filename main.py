@@ -104,7 +104,7 @@ all_stopwords = list(
 
 tfidf = TfidfVectorizer(
     stop_words=all_stopwords,
-    min_df=50,
+    min_df=30,
     max_df=0.85,
     max_features=None,
     sublinear_tf=True,
