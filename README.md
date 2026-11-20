@@ -1,79 +1,67 @@
 # MovieMatch
 
-MovieMatch is a movie recommendation system built using Python and machine learning. It uses movie genres and user-generated tags to find films similar to a movie selected by the user.
+MovieMatch recommends films released in 1990 or later from a TMDB-derived catalog. The current app uses the V2 engine in `rec_engine.py`: TF-IDF content similarity (75%), genre fit (20%), and Bayesian rating quality (5%). It returns 15 recommendations by default. The FastAPI app and browser UI use TMDB IDs throughout.
 
-I built this project to explore content-based recommendation systems and understand how text vectorization and similarity measures can be used in a practical application.
+## Requirements
 
-## Tech Stack
+- Python 3.11 or later
+- The MovieLens TMDB-style source files and processed movie data described below
 
-- **Python:** Pandas, NumPy, Scikit-learn
-- **Machine Learning:** TF-IDF, Cosine Similarity, Nearest Neighbors
-- **Backend:** FastAPI
-- **Frontend:** HTML, CSS, JavaScript
-
-## How it works
-
-1. Movie genres and tags are combined to create a description for each movie.
-2. TF-IDF converts these descriptions into numerical vectors.
-3. A Nearest Neighbors model uses cosine distance to find similar movies.
-4. The API returns recommendations along with similarity scores.
-
-## Setup
-
-**1. Clone the repository**
+Create and activate a virtual environment, then install the project dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/movieML.git
-cd movieML
-```
-
-**2. Install dependencies**
-
-```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**3. Download the dataset**
+## Prepare the data
 
-Download the [MovieLens Latest Full Dataset](https://grouplens.org/datasets/movielens/) and place the following files inside a `data/` directory:
-
-- `movies.csv`
-- `ratings.csv`
-- `tags.csv`
-- `links.csv`
-
-**4. Prepare the data and model**
+The raw MovieLens/TMDB data files are not included in Git. Put `movies_metadata.csv`, `keywords.csv`, `credits.csv`, and `links.csv` in `data/movies_dataset/`. Then run the existing preparation pipeline from the project folder:
 
 ```bash
-python prepare_metadata.py
-python main.py
+python scripts/clean_data.py
+python scripts/build_master.py
+python scripts/extract_features.py
+python scripts/augment_movie_catalog.py
 ```
 
-**5. Run the application**
+The catalog builder joins the local MovieLens 32M catalog and its user-applied tags to TMDB records through `links.csv`. It adds linked titles absent from the older TMDB feature file and writes `data/processed/movies_catalog.csv`. The app and recommender use that combined catalog; MovieLens tags contribute to content similarity.
+
+## Build the recommendation model
+
+Model artifacts are local and ignored by Git. Build them from the prepared feature file:
+
+```bash
+python -c "from rec_engine import train_model; train_model()"
+```
+
+This writes the model files under `data/models/tmdb/`. Rebuild after changing catalog contents or feature construction.
+
+## Run MovieMatch
 
 ```bash
 uvicorn app:app --reload
 ```
 
-Open http://127.0.0.1:8000/ui to use MovieMatch.
+Open <http://127.0.0.1:8000/ui>. API documentation is at <http://127.0.0.1:8000/docs>.
 
-API documentation: http://127.0.0.1:8000/docs
+The UI searches TMDB movie records, gets recommendations from the V2 engine, shows the score breakdown, and opens movie details. The API also accepts `tmdb_id` or an exact `title` for lookup and recommendations. Optional genre preferences can be passed to `/movies/recommend` as repeated `selected_genres` query parameters.
 
-## Project Structure
+## API endpoints
+
+- `GET /movies/search?query=inception`
+- `GET /movies/lookup?tmdb_id=27205` or `GET /movies/lookup?title=Inception`
+- `GET /movies/recommend?tmdb_id=27205` (15 results by default; set `top_n` to change it)
+- `GET /movies/details?tmdb_id=27205`
+
+## Project layout
 
 ```text
-movieML/
-├── data/
-├── templates/
-│   └── index.html
-├── static/
-│   ├── style.css
-│   └── script.js
-├── main.py
-├── app.py
-├── prepare_metadata.py
-├── requirements.txt
-└── README.md
+app.py                 FastAPI routes and TMDB catalog loading
+rec_engine.py          TF-IDF recommendation and ranking engine
+scripts/                Data cleaning and feature preparation
+static/                 Browser UI behavior and styling
+templates/              Browser UI page
+data/                   Local datasets and generated models (not tracked)
 ```
-
-The MovieLens dataset and generated model files are not included in this repository.
